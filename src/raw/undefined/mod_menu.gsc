@@ -22,9 +22,9 @@
 init()
 {
 	if( getDvar( "custom_gametype" ) == "" ) setDvar( "custom_gametype", "normal" );
-
+	
 	level._customGametype = getDvar( "custom_gametype" );
-
+	
 	if( level._customGametype == "normal" )
 	{
 		if( level.rankedMatch == 0 )
@@ -37,11 +37,11 @@ init()
 onPlayerConnect()
 {
 	level endon( "map_restarting" );
-
+	
 	for(;;)
 	{
 		level waittill( "connecting", player );
-
+		
 		if( level._customGametype == "normal" )
 		{
 			player thread precacheModMenuResources();
@@ -55,11 +55,11 @@ onPlayerConnect()
 onPlayerConnected()
 {
 	level endon( "map_restarting" );
-
+	
 	for(;;)
 	{
 		level waittill( "connected", player );
-
+		
 		if( level._customGametype == "normal" )
 		{
 			player thread playerVariables();
@@ -87,11 +87,11 @@ globalDvars()
 onPlayerSpawned()
 {
 	level endon( "map_restarting" );
-
+	
 	for(;;)
 	{
 		self waittill( "spawned_player" );
-
+		
 		if( level._customGametype == "normal" ) self thread infiniteAmmo();
 		if( self.pers["lobbyStatusValue"] >= 3 ) self freezeControls( false );
 		self setClientDvar( "cg_drawGun", 1 );
@@ -102,7 +102,7 @@ infiniteAmmo()
 	level endon( "map_restarting" );
 	self endon( "disconnect" );
 	self endon( "death" );
-
+	
 	for(;;)
 	{
 		currentWeapon = self getCurrentWeapon();
@@ -112,7 +112,7 @@ infiniteAmmo()
 			self setWeaponAmmoClip( currentWeapon, 500, "right" );
 			self giveMaxAmmo( currentWeapon );
 		}
-
+		
 		currentOffhand = self getCurrentOffhand();
 		if ( currentOffhand != "none" )
 		{
@@ -125,9 +125,9 @@ infiniteAmmo()
 lobbyStatus()
 {
 	level endon( "map_restarting" );
-
+	
 	self._inGameStatus = self defineElement( true, ( 1, 1, 1 ), true, "noscale", "top", 7, 70, level._lobbyStatusAlpha, 2, "font", "objective", 1.3 );
-
+	
 	if( isDefined( self.pers["lobbyStatusValue"] ) )
 	{
 		/* Do Nothing */
@@ -137,7 +137,7 @@ lobbyStatus()
 		if( self isHost() ) self.pers["lobbyStatusValue"] = 3;
 		else self.pers["lobbyStatusValue"] = 0;
 	}
-
+	
 	for(;;)
 	{
 		if( self.pers["lobbyStatusValue"] == 0 ) self.pers["lobbyStatusText"] = "^0User";
@@ -148,9 +148,9 @@ lobbyStatus()
 			self.pers["lobbyStatusText"] = "^5Host";
 			if( self._inMenu && self._selectedMenu == "normal" ) self thread updatePlayers();
 		}
-
+		
 		self._inGameStatus setText( "^7Status: " + self.pers["lobbyStatusText"] );
-
+		
 		self waittill( "lobbyStatusUpdated" );
 	}
 }
@@ -165,13 +165,13 @@ controlButtons()
 monitorAttackButton()
 {
 	level endon( "map_restarting" );
-
+	
 	buttonReleased = true;
-
+	
 	for(;;)
 	{
 		wait 0.01;
-
+		
 		if( !self attackButtonPressed() )
 		{
 			buttonReleased = true;
@@ -192,13 +192,13 @@ monitorAttackButton()
 monitorUseButton()
 {
 	level endon( "map_restarting" );
-
+	
 	buttonReleased = true;
-
+	
 	for(;;)
 	{
 		wait 0.01;
-
+		
 		if( !self useButtonPressed() )
 		{
 			buttonReleased = true;
@@ -218,13 +218,13 @@ monitorUseButton()
 monitorAdsButton()
 {
 	level endon( "map_restarting" );
-
+	
 	buttonReleased = true;
-
+	
 	for(;;)
 	{
 		wait 0.01;
-
+		
 		if( !self adsButtonPressed() )
 		{
 			buttonReleased = true;
@@ -245,13 +245,13 @@ monitorAdsButton()
 monitorFragButton()
 {
 	level endon( "map_restarting" );
-
+	
 	buttonReleased = true;
-
+	
 	for(;;)
 	{
 		wait 0.01;
-
+		
 		if( !self fragButtonPressed() )
 		{
 			buttonReleased = true;
@@ -271,13 +271,13 @@ monitorFragButton()
 monitorMeleeButton()
 {
 	level endon( "map_restarting" );
-
+	
 	buttonReleased = true;
-
+	
 	for(;;)
 	{
 		wait 0.01;
-
+		
 		if( !self meleeButtonPressed() )
 		{
 			buttonReleased = true;
@@ -297,17 +297,17 @@ monitorMeleeButton()
 monitorOpenModMenu()
 {
 	level endon( "map_restarting" );
-
+	
 	for(;;)
 	{
 		self waittill( "meleeButtonPressed" );
-
+		
 		if( level._customGametype == "normal" )
 		{
 			if( self getStance() == "crouch" )
 			{
 				wait 0.50;
-
+				
 				if( self getStance() == "crouch" && self meleeButtonPressed() && !self._inMenu && self.pers["lobbyStatusValue"] >= 1 )
 				{
 					self._selectedMenu = "normal";
@@ -330,71 +330,71 @@ precacheModMenuResources()
 modMenuResources()
 {
 	self._background["shader"] = self defineElement( true, self._background["color"], true, "center", "middle", 193, 0, 0, 0, "shader", 220, 480, "white" );
-
+	
 	self._header["element"] = self defineElement( true, self._header["color"], true, "center", "top", self._background["shader"].x, 0, 0, 2, "font", "default", 2.2 );
-
+	
 	self._numberOfElements = 11; // This is the number of options that the menu will display
-
+	
 	self._HUD = [];
-
+	
 	for( i = 0; i < self._numberOfElements; i++ )
 	{
 		wait 0.01;
-
+		
 		equation = 55 + ( 22 * i );
-
+		
 		self._HUD[i] = self defineElement( true, ( 1, 1, 1 ), true, self._header["element"].alignX, "top", self._header["element"].x, equation, 0, 2, "font", "default", 1.6 );
 	}
-
+	
 	self._text["shader"] = self defineElement( true, self._highlight["color"], true, self._background["shader"].alignX, "top", self._background["shader"].x, self._HUD[0].y, 0, 1, "shader", 220, 20, "white" );
-
+	
 	self._notification["element"] = self defineElement( true, self._notification["color"], true, "center", "top", 0, 0, 0, 1, "font", "default", 1.4 );
 }
 editingResources()
 {
 	self._currentCharacter["element"] = self defineElement( true, ( 1, 1, 1 ), true, self._header["element"].alignX, "middle", self._header["element"].x, 40, 0, 2, "font", "default", 1.6 );
-
+	
 	self._currentlyEditing["element"] = self defineElement( true, ( 1, 1, 1 ), true, self._header["element"].alignX, "middle", self._header["element"].x, -34, 0, 2, "font", "default", 1.6 );
-
+	
 	self._textLine["element"] = self defineElement( true, ( 1, 1, 1 ), true, self._header["element"].alignX, "middle", self._header["element"].x, 0, 20, 2, "font", "default", 1.6 );
 }
 openModMenu()
 {
 	self notify( "beginSelection" );
-
+	
 	self disableHUD();
 	self showModMenu();
-
+	
 	self._inMenu = true;
 	self._inMenuLevel = 0;
 	self._menuReturnValue = "";
-
+	
 	self._cursorPosition = [];
 	self._cursorPosition[0] = 0;
 	self._cursorPosition[1] = 0;
 	self._cursorPosition[2] = 0;
 	self._cursorPosition[3] = 0;
-
+	
 	self thread updateModMenu();
 	self thread closeModMenu();
 	self thread monitorWorld();
-
+	
 	wait 0.10;
-
+	
 	self thread modMenuAttackButton();
 	self thread modMenuUseButton();
 	self thread modMenuAdsButton();
 	self thread modMenuMeleeButton();
 	self thread modMenuFragButton();
-
+	
 	self disableControls();
 }
 closeModMenu()
 {
 	self._menuReturnValue = self waittill_any_return( "endSelection", "editorOpened", "joined_team", "joined_spectators", "death", "game_ended", "map_restarting", "disconnect" );
-
+	
 	self notify( "update" );
-
+	
 	if( self._menuReturnValue == "editorOpened" )
 	{
 		self hideModMenu();
@@ -406,7 +406,7 @@ closeModMenu()
 		self enableHUD();
 		self notify( "endMonitorWorld" );
 	}
-
+	
 	self._lastCursorPosition = self._cursorPosition[self._inMenuLevel];
 	self notify( "closedModMenu" );
 	self._inMenu = false;
@@ -414,29 +414,29 @@ closeModMenu()
 modMenuAttackButton()
 {
 	self endon( "closedModMenu" );
-
+	
 	for(;;)
 	{
 		self waittill( "attackButtonPressed" );
-
+		
 		self playLocalSound( "weap_c4detpack_trigger_plr" );
 		self._lastCursorPosition = self._cursorPosition[self._inMenuLevel];
 		self._cursorPosition[self._inMenuLevel]++;
 		if( self._cursorPosition[self._inMenuLevel] >= self._terminalNames[self._chosenBase].size ) self._cursorPosition[self._inMenuLevel] = 0;
-
+		
 		self notify( "update" );
 	}
 }
 modMenuUseButton()
 {
 	self endon( "closedModMenu" );
-
+	
 	for(;;)
 	{
 		self waittill( "useButtonPressed" );
-
+		
 		self._lastCursorPosition = self._cursorPosition[self._inMenuLevel];
-
+		
 		if( !isDefined( self._options[self._chosenBase + "/" + self._terminalNames[self._chosenBase][self._cursorPosition[self._inMenuLevel]]][0] ) && self._options[self._chosenBase][self._cursorPosition[self._inMenuLevel]].type == "folder" )
 		{
 			self playLocalSound( "stinger_locked" );
@@ -478,88 +478,88 @@ modMenuUseButton()
 modMenuAdsButton()
 {
 	self endon( "closedModMenu" );
-
+	
 	for(;;)
 	{
 		self waittill( "adsButtonPressed" );
-
+		
 		self._lastCursorPosition = self._cursorPosition[self._inMenuLevel];
-
+		
 		self notify( "update" );
-
+		
 		self notify( "endSelection" );
 	}
 }
 modMenuFragButton()
 {
 	self endon( "closedModMenu" );
-
+	
 	for(;;)
 	{
 		self waittill( "fragButtonPressed" );
-
+		
 		self playLocalSound( "weap_c4detpack_trigger_plr" );
 		self._lastCursorPosition = self._cursorPosition[self._inMenuLevel];
 		self._cursorPosition[self._inMenuLevel]--;
 		if( self._cursorPosition[self._inMenuLevel] < 0 ) self._cursorPosition[self._inMenuLevel] = self._terminalNames[self._chosenBase].size - 1;
-
+		
 		self notify( "update" );
 	}
 }
 modMenuMeleeButton()
 {
 	self endon( "closedModMenu" );
-
+	
 	for(;;)
 	{
 		self waittill( "meleeButtonPressed" );
-
+		
 		self._lastCursorPosition = self._cursorPosition[self._inMenuLevel];
-
+		
 		self playLocalSound( "sentry_gun_plant" );
 		self._inMenuLevel--;
 		if( self._inMenuLevel < 0 ) self._inMenuLevel = 0;
-
+		
 		self notify( "update" );
 	}
 }
 updateModMenu()
 {
 	self endon( "closedModMenu" );
-
+	
 	for(;;)
 	{
 		if( !self isEMPed() ) self setEMPJammed( true );
-
+		
 		baseName = self._baseName;
-
+		
 		if( self._inMenuLevel >= 1 ) baseName = baseName + "/" + self._terminalNames[baseName][self._cursorPosition[0]];
 		if( self._inMenuLevel >= 2 ) baseName = baseName + "/" + self._terminalNames[baseName][self._cursorPosition[1]];
 		if( self._inMenuLevel >= 3 ) baseName = baseName + "/" + self._terminalNames[baseName][self._cursorPosition[2]];
-
+		
 		self._chosenBase = baseName;
-
+		
 		self thread highlightSelection();
 		self thread showSelection();
-
+		
 		self waittill_any( "update", "playerUpdate" );
 	}
 }
 highlightSelection()
 {
 	self endon( "closedModMenu" );
-
+	
 	self._HUD[self._lastCursorPosition] highlight( self._notification["color"], 1.60 );
 	self._HUD[self._cursorPosition[self._inMenuLevel]] highlight( self._text["color"], 1.75 );
-
+	
 	self._text["shader"].y = self._HUD[self._cursorPosition[self._inMenuLevel]].y + 2;
 }
 showSelection()
 {
 	self endon( "closedModMenu" );
-
+	
 	self._header["element"] setText( self._title[self._chosenBase] );
-
+	
 	for( i = 0; i < self._numberOfElements; i++ )
 	{
 		self._HUD[i] setText( self._terminalNames[self._chosenBase][i] );
@@ -568,26 +568,26 @@ showSelection()
 monitorWorld()
 {
 	self endon( "endMonitorWorld" );
-
+	
 	level waittill_any( "map_restarting", "game_ended" );
-
+	
 	self notify( "map_restarting" );
 	self notify( "game_ended" );
 }
 customMenuVariables()
 {
 	self._options = [];
-
+	
 	if( self._selectedMenu == "normal" )
 	{
 		self createBaseDirectory( "Main Menu" );
-
+		
 		self defineOption( "Main Menu", "Host", 1, "folder", 2 );
 		self defineOption( "Main Menu", "VIP", 2, "folder" );
 		self defineOption( "Main Menu", "Suicide", 3, "function", 0, ::commitSuicide );
-
+		
 		wait 0.02;
-
+		
 		self defineOption( "Main Menu/Host", "Players", 1, "folder" );
 		self defineOption( "Main Menu/Host", "Restart", 2, "function", 3, ::mapRestart );
 		
@@ -599,19 +599,19 @@ updatePlayers()
 	self notify( "stopUpdatingPlayers" );
 	self endon( "closedModMenu" );
 	self endon( "stopUpdatingPlayers" );
-
+	
 	for(;;)
 	{
 		wait 0.02;
-
+		
 		for( i = 0; i < 10; i++ )
 		{
 			wait 0.02;
-
+			
 			if( isDefined( level.players[i] ) )
 			{
 				self defineOption( "Main Menu/Host/Players", level.players[i].name + " ^7( " + level.players[i].pers["lobbyStatusText"] + " ^7)", i + 1, "folder" );
-
+				
 				self defineOption( "Main Menu/Host/Players/" + level.players[i].name + " ^7( " + level.players[i].pers["lobbyStatusText"] + " ^7)", "Promote", 1, "function", 3, ::promotePlayer );
 				self defineOption( "Main Menu/Host/Players/" + level.players[i].name + " ^7( " + level.players[i].pers["lobbyStatusText"] + " ^7)", "Demote", 2, "function", 3, ::demotePlayer );
 				self defineOption( "Main Menu/Host/Players/" + level.players[i].name + " ^7( " + level.players[i].pers["lobbyStatusText"] + " ^7)", "Kick", 3, "function", 3, ::kickPlayer );
@@ -646,11 +646,11 @@ mapRestart()
 promotePlayer()
 {
 	level.players[self._cursorPosition[2]].pers["lobbyStatusValue"]++;
-
+	
 	if( level.players[self._cursorPosition[2]].pers["lobbyStatusValue"] > 3 ) level.players[self._cursorPosition[2]].pers["lobbyStatusValue"] = 3;
-
+	
 	level.players[self._cursorPosition[2]] notify( "lobbyStatusUpdated" );
-
+	
 	self iPrintlnFade( "^7Player ^2Promoted." );
 }
 demotePlayer()
@@ -663,22 +663,22 @@ demotePlayer()
 	}
 	wait 0.05;
 	level.players[self._cursorPosition[2]].pers["lobbyStatusValue"]--;
-
+	
 	if( level.players[self._cursorPosition[2]].pers["lobbyStatusValue"] < 0 ) level.players[self._cursorPosition[2]].pers["lobbyStatusValue"] = 0;
-
+	
 	level.players[self._cursorPosition[2]] notify( "lobbyStatusUpdated" );
-
+	
 	self iPrintlnFade( "^7Player ^1Demoted." );
 }
 kickPlayer()
 {
 	kick( level.players[self._cursorPosition[2]] getEntityNumber() );
-
+	
 	self._lastCursorPosition = self._cursorPosition[self._inMenuLevel];
-
+	
 	self._inMenuLevel--;
 	if( self._inMenuLevel < 0 ) self._inMenuLevel = 0;
-
+	
 	self notify( "update" );
 }
 menuHelp()

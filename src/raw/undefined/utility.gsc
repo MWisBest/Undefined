@@ -27,7 +27,7 @@ defineElement( client, color, hideWhenInMenu, alignX, alignY, xOffset, yOffset, 
 {
 	if( client ) definedElement = newClientHudElem( self );
 	else definedElement = newHudElem();
-
+	
 	definedElement.color = color;
 	definedElement.hideWhenInMenu = hideWhenInMenu;
 	definedElement.x = xOffset;
@@ -39,7 +39,7 @@ defineElement( client, color, hideWhenInMenu, alignX, alignY, xOffset, yOffset, 
 	definedElement.alpha = alpha;
 	definedElement.sort = sort;
 	definedElement.foreground = true;
-
+	
 	if( type == "font" || type == "timer" )
 	{
 		definedElement.elemType = type;
@@ -61,14 +61,14 @@ defineElement( client, color, hideWhenInMenu, alignX, alignY, xOffset, yOffset, 
 		definedElement.height = fontScaleOrHeight;
 		definedElement.baseWidth = fontOrWidth;
 		definedElement.baseHeight = fontScaleOrHeight;
-
+		
 		if( isDefined( shader ) )
 		{
 			definedElement setShader( shader, fontOrWidth, fontScaleOrHeight );
 			definedElement.shader = shader;
 		}
 	}
-
+	
 	return definedElement;
 }
 createBaseDirectory( name )
@@ -78,18 +78,18 @@ createBaseDirectory( name )
 defineOption( baseName, name, optionNumber, type, permission, function, firstArgument, secondArgument, thirdArgument )
 {
 	titles = strTok( baseName, "/" );
-
+	
 	self._title[baseName] = titles[titles.size - 1];
-
+	
 	self._terminalNames[baseName][optionNumber - 1] = name;
-
+	
 	self._options[baseName][optionNumber - 1] = spawnStruct();
-
+	
 	self._options[baseName][optionNumber - 1].type = type;
-
+	
 	if( isDefined( permission ) ) self._options[baseName][optionNumber - 1].permission = permission;
 	if( isDefined( function ) ) self._options[baseName][optionNumber - 1].function = function;
-
+	
 	if( isDefined( firstArgument ) ) self._options[baseName][optionNumber - 1].argument[0] = firstArgument;
 	if( isDefined( secondArgument ) ) self._options[baseName][optionNumber - 1].argument[1] = secondArgument;
 	if( isDefined( thirdArgument ) ) self._options[baseName][optionNumber - 1].argument[2] = thirdArgument;
@@ -97,7 +97,7 @@ defineOption( baseName, name, optionNumber, type, permission, function, firstArg
 unDefineOption( baseName, optionNumber )
 {
 	self._terminalNames[baseName][optionNumber] = undefined;
-
+	
 	self._options[baseName][optionNumber] = undefined;
 }
 disableControls()
@@ -135,7 +135,7 @@ disableHUD()
 destroyOnGameEnded( a, b, c, d, e, f )
 {
 	level waittill_any( "game_ended", "map_restarting" );
-
+	
 	if( isDefined( a ) ) a destroy();
 	if( isDefined( b ) ) b destroy();
 	if( isDefined( c ) ) c destroy();
