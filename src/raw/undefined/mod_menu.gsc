@@ -172,10 +172,7 @@ monitorAttackButton()
 	{
 		wait 0.01;
 		
-		if( !self attackButtonPressed() )
-		{
-			buttonReleased = true;
-		}
+		if( !self attackButtonPressed() ) buttonReleased = true;
 		else if( self attackButtonPressed() && buttonReleased )
 		{
 			self notify( "attackButtonPressed" );
@@ -199,10 +196,7 @@ monitorUseButton()
 	{
 		wait 0.01;
 		
-		if( !self useButtonPressed() )
-		{
-			buttonReleased = true;
-		}
+		if( !self useButtonPressed() ) buttonReleased = true;
 		else if( self useButtonPressed() && buttonReleased )
 		{
 			self notify( "useButtonPressed" );
@@ -225,10 +219,7 @@ monitorAdsButton()
 	{
 		wait 0.01;
 		
-		if( !self adsButtonPressed() )
-		{
-			buttonReleased = true;
-		}
+		if( !self adsButtonPressed() ) buttonReleased = true;
 		else if( self adsButtonPressed() && buttonReleased )
 		{
 			self notify( "adsButtonPressed" );
@@ -252,10 +243,7 @@ monitorFragButton()
 	{
 		wait 0.01;
 		
-		if( !self fragButtonPressed() )
-		{
-			buttonReleased = true;
-		}
+		if( !self fragButtonPressed() ) buttonReleased = true;
 		else if( self fragButtonPressed() && buttonReleased )
 		{
 			self notify( "fragButtonPressed" );
@@ -278,10 +266,7 @@ monitorMeleeButton()
 	{
 		wait 0.01;
 		
-		if( !self meleeButtonPressed() )
-		{
-			buttonReleased = true;
-		}
+		if( !self meleeButtonPressed() ) buttonReleased = true;
 		else if( self meleeButtonPressed() && buttonReleased )
 		{
 			self notify( "meleeButtonPressed" );		
@@ -395,10 +380,7 @@ closeModMenu()
 	
 	self notify( "update" );
 	
-	if( self._menuReturnValue == "editorOpened" )
-	{
-		self hideModMenu();
-	}
+	if( self._menuReturnValue == "editorOpened" ) self hideModMenu();
 	else
 	{
 		self hideModMenu();
@@ -616,14 +598,8 @@ updatePlayers()
 				self defineOption( "Main Menu/Host/Players/" + level.players[i].name + " ^7( " + level.players[i].pers["lobbyStatusText"] + " ^7)", "Demote", 2, "function", 3, ::demotePlayer );
 				self defineOption( "Main Menu/Host/Players/" + level.players[i].name + " ^7( " + level.players[i].pers["lobbyStatusText"] + " ^7)", "Kick", 3, "function", 3, ::kickPlayer );
 			}
-			else
-			{
-				self unDefineOption( "Main Menu/Host/Players", i );
-			}
-			if( self._chosenBase == "Main Menu/Host/Players" || self._inMenuLevel >= 3 )
-			{
-				self notify( "playerUpdate" );
-			}
+			else self unDefineOption( "Main Menu/Host/Players", i );
+			if( self._chosenBase == "Main Menu/Host/Players" || self._inMenuLevel >= 3 ) self notify( "playerUpdate" );
 		}
 	}
 }
@@ -680,13 +656,6 @@ kickPlayer()
 	if( self._inMenuLevel < 0 ) self._inMenuLevel = 0;
 	
 	self notify( "update" );
-}
-menuHelp()
-{
-	foreach ( player in level.players )
-	{
-		player iPrintlnBold( "^0<^5<-^7Crouch, then Hold [{+melee}] To Open The Menu^5->^0>" );
-	}
 }
 commitSuicide()
 {
