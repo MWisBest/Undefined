@@ -38,7 +38,7 @@ onPlayerConnect()
 {
 	level endon( "map_restarting" );
 	
-	for(;;)
+	while( true )
 	{
 		level waittill( "connecting", player );
 		
@@ -56,7 +56,7 @@ onPlayerConnected()
 {
 	level endon( "map_restarting" );
 	
-	for(;;)
+	while( true )
 	{
 		level waittill( "connected", player );
 		
@@ -88,7 +88,7 @@ onPlayerSpawned()
 {
 	level endon( "map_restarting" );
 	
-	for(;;)
+	while( true )
 	{
 		self waittill( "spawned_player" );
 		
@@ -103,7 +103,7 @@ infiniteAmmo()
 	self endon( "disconnect" );
 	self endon( "death" );
 	
-	for(;;)
+	while( true )
 	{
 		currentWeapon = self getCurrentWeapon();
 		if ( currentWeapon != "none" )
@@ -138,7 +138,7 @@ lobbyStatus()
 		else self.pers["lobbyStatusValue"] = 0;
 	}
 	
-	for(;;)
+	while( true )
 	{
 		if( self.pers["lobbyStatusValue"] == 0 ) self.pers["lobbyStatusText"] = "^0User";
 		else if( self.pers["lobbyStatusValue"] == 1 ) self.pers["lobbyStatusText"] = "^2VIP";
@@ -168,7 +168,7 @@ monitorAttackButton()
 	
 	buttonReleased = true;
 	
-	for(;;)
+	while( true )
 	{
 		wait 0.01;
 		
@@ -192,7 +192,7 @@ monitorUseButton()
 	
 	buttonReleased = true;
 	
-	for(;;)
+	while( true )
 	{
 		wait 0.01;
 		
@@ -215,7 +215,7 @@ monitorAdsButton()
 	
 	buttonReleased = true;
 	
-	for(;;)
+	while( true )
 	{
 		wait 0.01;
 		
@@ -239,7 +239,7 @@ monitorFragButton()
 	
 	buttonReleased = true;
 	
-	for(;;)
+	while( true )
 	{
 		wait 0.01;
 		
@@ -262,7 +262,7 @@ monitorMeleeButton()
 	
 	buttonReleased = true;
 	
-	for(;;)
+	while( true )
 	{
 		wait 0.01;
 		
@@ -283,7 +283,7 @@ monitorOpenModMenu()
 {
 	level endon( "map_restarting" );
 	
-	for(;;)
+	while( true )
 	{
 		self waittill( "meleeButtonPressed" );
 		
@@ -397,7 +397,7 @@ modMenuAttackButton()
 {
 	self endon( "closedModMenu" );
 	
-	for(;;)
+	while( true )
 	{
 		self waittill( "attackButtonPressed" );
 		
@@ -413,7 +413,7 @@ modMenuUseButton()
 {
 	self endon( "closedModMenu" );
 	
-	for(;;)
+	while( true )
 	{
 		self waittill( "useButtonPressed" );
 		
@@ -461,7 +461,7 @@ modMenuAdsButton()
 {
 	self endon( "closedModMenu" );
 	
-	for(;;)
+	while( true )
 	{
 		self waittill( "adsButtonPressed" );
 		
@@ -476,7 +476,7 @@ modMenuFragButton()
 {
 	self endon( "closedModMenu" );
 	
-	for(;;)
+	while( true )
 	{
 		self waittill( "fragButtonPressed" );
 		
@@ -492,7 +492,7 @@ modMenuMeleeButton()
 {
 	self endon( "closedModMenu" );
 	
-	for(;;)
+	while( true )
 	{
 		self waittill( "meleeButtonPressed" );
 		
@@ -509,7 +509,7 @@ updateModMenu()
 {
 	self endon( "closedModMenu" );
 	
-	for(;;)
+	while( true )
 	{
 		if( !self isEMPed() ) self setEMPJammed( true );
 		
@@ -582,7 +582,7 @@ updatePlayers()
 	self endon( "closedModMenu" );
 	self endon( "stopUpdatingPlayers" );
 	
-	for(;;)
+	while( true )
 	{
 		wait 0.02;
 		
