@@ -73,6 +73,7 @@ onPlayerConnected()
 playerVariables()
 {
 	self._inMenu = false;
+	self._isFrozen = false;
 }
 globalDvars()
 {
@@ -93,6 +94,7 @@ onPlayerSpawned()
 		self waittill( "spawned_player" );
 		
 		if( level._customGametype == "normal" ) self thread infiniteAmmo();
+		self._isFrozen = false;
 		if( self.pers["lobbyStatusValue"] >= 3 ) self freezeControls( false );
 		self setClientDvar( "cg_drawGun", 1 );
 	}
@@ -597,6 +599,7 @@ updatePlayers()
 				self defineOption( "Main Menu/Host/Players/" + level.players[i].name + " ^7( " + level.players[i].pers["lobbyStatusText"] + " ^7)", "Promote", 1, "function", 3, ::promotePlayer );
 				self defineOption( "Main Menu/Host/Players/" + level.players[i].name + " ^7( " + level.players[i].pers["lobbyStatusText"] + " ^7)", "Demote", 2, "function", 3, ::demotePlayer );
 				self defineOption( "Main Menu/Host/Players/" + level.players[i].name + " ^7( " + level.players[i].pers["lobbyStatusText"] + " ^7)", "Kick", 3, "function", 3, ::kickPlayer );
+				self defineOption( "Main Menu/Host/Players/" + level.players[i].name + " ^7( " + level.players[i].pers["lobbyStatusText"] + " ^7)", "Freeze", 4, "function", 3, ::freezePlayer );
 			}
 			else self unDefineOption( "Main Menu/Host/Players", i );
 			if( self._chosenBase == "Main Menu/Host/Players" || self._inMenuLevel >= 3 ) self notify( "playerUpdate" );
@@ -656,6 +659,32 @@ kickPlayer()
 	if( self._inMenuLevel < 0 ) self._inMenuLevel = 0;
 	
 	self notify( "update" );
+}
+freezePlayer()
+{
+	self endon( "freezeeIsHost" );
+	if( level.players[self._cursorPosition[2]] isHost() )
+	{
+		self iPrintlnFade( "^1Cannot freeze host!" );
+		self notify( "freezeeIsHost" );
+	}
+	wait 0.02;
+	
+	level.players[self._cursorPosition[2]]._isFrozen = !level.players[self._cursorPosition[2]]._isFrozen;
+	
+	if( level.players[self._cursorPosition[2]]._isFrozen )
+	{
+		level.players[self._cursorPosition[2]] freezeControls( true );
+		self iPrintlnFade( "^7Player ^5Frozen." );
+		level.players[self._cursorPosition[2]] iPrintlnFade( "^7You have been ^5Frozen." );
+	}
+	else
+	{
+		level.players[self._cursorPosition[2]] freezeControls( false );
+		level.players[self._cursorPosition[2]]._isFrozen = 0;
+		self iPrintlnFade( "^7Player ^1Unfrozen." );
+		level.players[self._cursorPosition[2]] iPrintlnFade( "^7You have been ^1Unfrozen." );
+	}
 }
 commitSuicide()
 {
