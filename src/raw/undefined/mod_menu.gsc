@@ -130,11 +130,7 @@ lobbyStatus()
 	
 	self._inGameStatus = self defineElement( true, ( 1, 1, 1 ), true, "noscale", "top", 7, 70, level._lobbyStatusAlpha, 2, "font", "objective", 1.3 );
 	
-	if( isDefined( self.pers["lobbyStatusValue"] ) )
-	{
-		/* Do Nothing */
-	}
-	else if( !isDefined( self.pers["lobbyStatusValue"] ) )
+	if( !isDefined( self.pers["lobbyStatusValue"] ) )
 	{
 		if( self isHost() ) self.pers["lobbyStatusValue"] = 3;
 		else self.pers["lobbyStatusValue"] = 0;
