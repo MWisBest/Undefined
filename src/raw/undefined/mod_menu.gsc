@@ -159,6 +159,7 @@ controlButtons()
 	self thread monitorAdsButton();
 	self thread monitorFragButton();
 	self thread monitorMeleeButton();
+	self thread monitorMovementButtons();
 }
 monitorAttackButton()
 {
@@ -276,6 +277,13 @@ monitorMeleeButton()
 			wait 0.05;
 		}
 	}
+}
+monitorMovementButtons()
+{
+	self notifyOnPlayerCommand( "upButtonPressed", "+forward" );
+	self notifyOnPlayerCommand( "downButtonPressed", "+back" );
+	self notifyOnPlayerCommand( "leftButtonPressed", "+moveleft" );
+	self notifyOnPlayerCommand( "rightButtonPressed", "+moveright" );
 }
 monitorOpenModMenu()
 {
@@ -397,7 +405,8 @@ modMenuAttackButton()
 	
 	while( true )
 	{
-		self waittill( "attackButtonPressed" );
+		//self waittill( "attackButtonPressed" );
+		self waittill( "downButtonPressed" );
 		
 		self playLocalSound( "weap_c4detpack_trigger_plr" );
 		self._lastCursorPosition = self._cursorPosition[self._inMenuLevel];
@@ -413,7 +422,8 @@ modMenuUseButton()
 	
 	while( true )
 	{
-		self waittill( "useButtonPressed" );
+		//self waittill( "useButtonPressed" );
+		self waittill( "rightButtonPressed" );
 		
 		self._lastCursorPosition = self._cursorPosition[self._inMenuLevel];
 		
@@ -476,7 +486,8 @@ modMenuFragButton()
 	
 	while( true )
 	{
-		self waittill( "fragButtonPressed" );
+		//self waittill( "fragButtonPressed" );
+		self waittill( "upButtonPressed" );
 		
 		self playLocalSound( "weap_c4detpack_trigger_plr" );
 		self._lastCursorPosition = self._cursorPosition[self._inMenuLevel];
@@ -492,7 +503,8 @@ modMenuMeleeButton()
 	
 	while( true )
 	{
-		self waittill( "meleeButtonPressed" );
+		//self waittill( "meleeButtonPressed" );
+		self waittill( "leftButtonPressed" );
 		
 		self._lastCursorPosition = self._cursorPosition[self._inMenuLevel];
 		
